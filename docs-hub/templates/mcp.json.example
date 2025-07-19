@@ -1,0 +1,50 @@
+{
+  "mcpServers": {
+    "taskmaster": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-taskmaster"],
+      "env": {
+        "ANTHROPIC_API_KEY": "sk-ant-REPLACE-WITH-YOUR-KEY",
+        "PERPLEXITY_API_KEY": "pplx-REPLACE-WITH-YOUR-KEY",
+        "OPENAI_API_KEY": "sk-REPLACE-WITH-YOUR-KEY"
+      }
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": ["-y", "@pierreg/server-desktop-commander"]
+    },
+    "context7": {
+      "command": "npx", 
+      "args": ["-y", "@context7/mcp-server"],
+      "env": {
+        "CONTEXT7_API_KEY": "OPTIONAL-LEAVE-EMPTY-FOR-FREE-TIER"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_REPLACE-WITH-YOUR-PAT"
+      }
+    },
+    "browserbase": {
+      "command": "npx",
+      "args": ["-y", "@browserbase/mcp-browserbase"],
+      "env": {
+        "BROWSERBASE_API_KEY": "bb-REPLACE-WITH-YOUR-KEY"
+      }
+    },
+    "docker-memory": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "-v", "mcp_docker_memory:/data", "ghcr.io/ckreiling/mcp-memory-service:latest"]
+    },
+    "stagehand": {
+      "command": "npx",
+      "args": ["-y", "@browserbase/stagehand"],
+      "env": {
+        "BROWSERBASE_API_KEY": "bb-REPLACE-WITH-YOUR-KEY",
+        "BROWSERBASE_PROJECT_ID": "REPLACE-WITH-PROJECT-ID"
+      }
+    }
+  }
+} 

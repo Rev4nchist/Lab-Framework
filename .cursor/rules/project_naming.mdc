@@ -1,0 +1,69 @@
+# Project Naming & Structure Rule
+
+## Naming Conventions
+
+### Folder Structure
+- **Format**: `projects/YYYY-MM-[project-slug]/`
+- **Slug Rules**: lowercase, hyphens only, descriptive
+- **Examples**: 
+  - `projects/2025-01-customer-portal/`
+  - `projects/2025-01-ai-chat-bot/`
+  - `projects/2025-01-azure-microservice/`
+
+### Required Files in Each Project
+```
+projects/2025-01-[slug]/
+├── README.md          # Project overview & PRD link
+├── src/               # Source code
+├── tests/             # Unit/integration tests
+├── docs/              # Project-specific documentation
+├── Dockerfile         # For containerization
+├── .gitignore         # Project-specific ignores
+└── package.json       # Node projects (or equivalent)
+```
+
+### TaskMaster Integration
+- Create tag for each project: `task-master use-tag "[slug]"`
+- Link to PRD: Reference in task descriptions
+- Track progress: Use subtasks for features
+
+## Examples
+
+### ✅ DO: Proper Project Setup
+```bash
+# Good naming and structure
+mkdir projects/2025-01-inventory-system
+cd projects/2025-01-inventory-system
+
+# Required files
+echo "# Inventory System\n\nPRD: docs-hub/templates/inventory-prd.txt" > README.md
+mkdir src tests docs
+echo "FROM mcr.microsoft.com/appsvc/node:18-lts" > Dockerfile
+
+# TaskMaster integration
+task-master use-tag "inventory-system"
+task-master add-task --prompt "Setup basic Express API for inventory"
+```
+
+### ❌ DON'T: Poor Naming
+```bash
+# Bad - no date, unclear name
+mkdir projects/app1
+mkdir projects/stuff
+mkdir projects/test
+```
+
+## Graduation Rules
+- When ready for production: Move to own repo
+- Archive original: `archives/[slug]-YYYY-MM-DD/`
+- Update README with new repo link
+
+---
+description: Ensures searchable, dated project folders with consistent structure
+globs: projects/**
+alwaysApply: true
+---
+description:
+globs:
+alwaysApply: false
+---

@@ -1,0 +1,3 @@
+# This file keeps the projects/ directory in git
+# New projects will be created as subdirectories here following the pattern:
+# projects/YYYY-MM-project-slug/ 

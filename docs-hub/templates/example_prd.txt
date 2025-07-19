@@ -1,0 +1,310 @@
+<context>
+# 🧪 The Lab Framework - Guided Setup & Configuration
+
+Welcome to The Lab! This document serves as both an example PRD and your automated setup guide. 
+
+**To start setup**: Message your Cursor Agent with "I've cloned the Lab framework repo" and it will use this document to guide you through the complete setup process.
+
+</context>
+<PRD>
+# Lab Framework Setup & Configuration System
+
+## Overview
+The Lab Framework requires initial configuration to unlock its full potential. This PRD defines an intelligent setup system that guides users through:
+- TaskMaster installation and configuration
+- MCP (Model Context Protocol) server setup
+- API key configuration
+- Development environment preparation
+- First project creation
+
+## Core Features
+
+### 1. Interactive Setup Wizard
+**What it does**: Guides users through each setup step with validation
+**Why it's important**: Zero-friction onboarding ensures teams can start being productive immediately
+**How it works**: 
+- Detects current environment (Windows/macOS/Linux)
+- Checks for prerequisites (Node.js, Git, PowerShell/Bash)
+- Validates each step before proceeding
+- Provides rollback options if issues occur
+
+### 2. TaskMaster Integration
+**What it does**: Installs and configures TaskMaster AI for project management
+**Why it's important**: TaskMaster is the core workflow engine providing 30-50% productivity gains
+**How it works**:
+- Installs TaskMaster globally via npm
+- Creates initial configuration with optimal AI models
+- Sets up aliases (tm, taskmaster) for quick access
+- Validates API keys for selected AI providers
+
+### 3. MCP Server Configuration
+**What it does**: Sets up all required MCP servers for enhanced development
+**Why it's important**: MCPs provide the automation backbone for AI-enhanced workflows
+**How it works**:
+- Creates `.cursor/mcp.json` with all server configurations
+- Guides through API key setup for each service
+- Tests each MCP connection
+- Provides troubleshooting for common issues
+
+### 4. Development Environment Preparation
+**What it does**: Configures Git, Docker, and other development tools
+**Why it's important**: Consistent environment across team members
+**How it works**:
+- Sets up Git configuration (.gitattributes, hooks)
+- Validates Docker installation (optional)
+- Configures editor settings
+- Creates initial project structure
+
+### 5. First Project Bootstrap
+**What it does**: Creates user's first Lab project as a learning experience
+**Why it's important**: Learning by doing ensures understanding of workflow
+**How it works**:
+- Guides through project naming conventions
+- Creates project structure using templates
+- Initializes TaskMaster for the project
+- Demonstrates key workflow commands
+
+## User Experience
+
+### User Personas
+- **Individual Developer**: Wants quick setup to start building
+- **Team Lead**: Needs consistent setup across team members
+- **Enterprise DevOps**: Requires security compliance and customization
+
+### Key User Flows
+
+1. **Fresh Install Flow**:
+   - Clone repository
+   - Message Cursor: "I've cloned the Lab framework repo"
+   - Follow interactive prompts
+   - Validate setup with test project
+   - Start developing
+
+2. **Team Member Onboarding**:
+   - Receive repository access
+   - Run guided setup
+   - Configure personal API keys
+   - Join existing projects via TaskMaster tags
+
+3. **Migration from Existing Setup**:
+   - Import existing TaskMaster configuration
+   - Migrate projects to Lab structure
+   - Preserve Git history and task states
+
+## Technical Architecture
+
+### System Components
+
+1. **Setup Scripts**:
+   - PowerShell scripts for Windows
+   - Bash scripts for macOS/Linux
+   - Cross-platform Node.js utilities
+
+2. **Configuration Management**:
+   - `.env.example` → `.env` for API keys
+   - `.cursor/mcp.json` for MCP servers
+   - `.taskmaster/config.json` for TaskMaster
+   - Git hooks for workflow automation
+
+3. **Validation System**:
+   - Environment checks
+   - API key validation
+   - MCP connection tests
+   - TaskMaster command verification
+
+### Data Models
+
+```typescript
+interface LabConfig {
+  environment: {
+    os: 'windows' | 'macos' | 'linux';
+    shell: 'powershell' | 'bash' | 'zsh';
+    nodeVersion: string;
+    gitVersion: string;
+  };
+  taskmaster: {
+    version: string;
+    models: {
+      main: string;
+      research: string;
+      fallback: string;
+    };
+    apiKeys: Record<string, boolean>; // provider -> configured
+  };
+  mcpServers: {
+    [serverName: string]: {
+      configured: boolean;
+      tested: boolean;
+      lastError?: string;
+    };
+  };
+  projects: {
+    path: string;
+    name: string;
+    tag: string;
+    created: Date;
+  }[];
+}
+```
+
+### APIs and Integrations
+
+1. **TaskMaster MCP**:
+   - Project management
+   - Task tracking
+   - AI-powered planning
+
+2. **Desktop Commander MCP**:
+   - CLI execution from chat
+   - File system operations
+   - Process management
+
+3. **Context7 MCP**:
+   - Documentation lookup
+   - Library references
+   - Best practices
+
+4. **GitHub MCP**:
+   - Repository management
+   - Issue tracking
+   - PR workflows
+
+5. **BrowserBase MCP**:
+   - Web research
+   - Real-time documentation
+   - Testing automation
+
+### Infrastructure Requirements
+
+- **Node.js**: v18+ for TaskMaster and utilities
+- **Git**: For version control
+- **PowerShell/Bash**: For automation scripts
+- **Internet**: For AI API calls and MCP services
+- **Storage**: ~500MB for dependencies and caches
+
+## Development Roadmap
+
+### Phase 1: Core Setup System
+- Environment detection and validation
+- TaskMaster installation and configuration
+- Basic MCP setup (TaskMaster, Desktop Commander)
+- Initial project creation
+
+### Phase 2: Enhanced Integration
+- Full MCP suite configuration
+- Team collaboration features
+- Advanced workflow patterns
+- Performance optimizations
+
+### Phase 3: Enterprise Features
+- Custom MCP server support
+- Air-gapped installation options
+- Compliance and audit logging
+- Multi-workspace management
+
+## Logical Dependency Chain
+
+1. **Foundation**:
+   - Environment validation
+   - Prerequisite installation
+   - Directory structure creation
+
+2. **Core Tools**:
+   - TaskMaster installation
+   - API key configuration
+   - Model selection
+
+3. **Integration Layer**:
+   - MCP server setup
+   - Connection validation
+   - Workflow scripts
+
+4. **User Experience**:
+   - First project creation
+   - Workflow demonstration
+   - Documentation access
+
+## Risks and Mitigations
+
+### Technical Challenges
+- **Risk**: API key management complexity
+- **Mitigation**: Clear documentation, secure storage patterns, validation tools
+
+- **Risk**: Cross-platform compatibility
+- **Mitigation**: Extensive testing, platform-specific scripts, fallback options
+
+- **Risk**: MCP server availability
+- **Mitigation**: Graceful degradation, offline capabilities, retry logic
+
+### User Experience Risks
+- **Risk**: Overwhelming setup process
+- **Mitigation**: Progressive disclosure, skip options for experts, clear progress indicators
+
+- **Risk**: Configuration drift over time
+- **Mitigation**: Version checking, update notifications, migration tools
+
+## Success Metrics
+
+1. **Setup Completion Rate**: >95% of users complete setup successfully
+2. **Time to First Task**: <15 minutes from clone to productive work
+3. **Configuration Accuracy**: Zero manual edits required post-setup
+4. **User Satisfaction**: >4.5/5 rating for setup experience
+
+## Appendix
+
+### Required MCP Servers
+
+| Server | Purpose | Priority | Setup Complexity |
+|--------|---------|----------|------------------|
+| TaskMaster | Core workflow | CRITICAL | Low |
+| Desktop Commander | CLI automation | CRITICAL | Low |
+| Context7 | Documentation | HIGH | Medium |
+| GitHub | Repository mgmt | HIGH | Medium |
+| BrowserBase | Web research | MEDIUM | High |
+| Docker Memory | Persistence | MEDIUM | High |
+
+### API Key Requirements
+
+| Provider | Used For | Required | Cost Warning |
+|----------|----------|----------|--------------|
+| Anthropic | TaskMaster (main) | Yes | $$$ |
+| Perplexity | Research mode | Recommended | $$ |
+| OpenAI | Fallback model | Optional | $$ |
+| Context7 | Documentation | Optional | Free/$ |
+| BrowserBase | Web automation | Optional | $$ |
+
+### Quick Commands Reference
+
+```bash
+# After setup, these commands will be available:
+
+# TaskMaster shortcuts
+tm init                    # Initialize new project
+tm next                    # Get next task
+tm show <id>              # View task details
+tm expand --id=<id>       # Break down complex task
+tm set-status --id=<id> --status=done
+
+# Lab Framework scripts
+./core-tools/scripts/new-project.ps1    # Create new project
+./core-tools/scripts/lab-graduate.ps1   # Graduate to production
+./core-tools/scripts/lab-clean.ps1      # Archive old projects
+
+# MCP-enhanced workflows
+# (These work through Cursor chat with Desktop Commander)
+"Create new project called inventory-system"
+"Show me what I should work on next"
+"Mark task 5.2 as complete"
+```
+
+### Troubleshooting Resources
+
+1. **Environment Issues**: Check prerequisites, PATH variables
+2. **API Key Problems**: Validate in .env, check provider dashboards
+3. **MCP Failures**: Review .cursor/mcp.json, test connections
+4. **TaskMaster Errors**: Check .taskmaster/config.json, run tm models --setup
+
+---
+
+*This PRD serves as both documentation and setup automation trigger. When you message "I've cloned the Lab framework repo" to your Cursor Agent, it will parse this document and guide you through the complete setup process.*
+</PRD> 
