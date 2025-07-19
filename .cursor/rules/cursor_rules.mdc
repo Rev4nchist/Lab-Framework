@@ -47,4 +47,11 @@ alwaysApply: false
   - Keep descriptions concise
   - Include both DO and DON'T examples
   - Reference actual code over theoretical examples
-  - Use consistent formatting across rules 
+  - Use consistent formatting across rules
+
+- **MCP Tool Integration:**
+  - Refer to [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for comprehensive tool usage
+  - Use performance-driven tool selection based on tested metrics
+  - Prioritize Desktop Commander for file operations (30x faster)
+  - Use BrowserBase with Smithery CLI for 95% success rate
+  - Avoid MCP search functions due to timeout issues 

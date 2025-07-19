@@ -145,6 +145,12 @@ tm update-subtask --id=5.2 \
 - Command history
 - Easy for beginners
 
+### MCP Tool Integration
+- See [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for comprehensive patterns
+- Use parallel tool calls for 3-5x performance gains
+- Leverage BrowserBase for complex workflows (95% success rate)
+- Desktop Commander for file operations (30x faster than MCP search)
+
 ## Advanced Workflows
 
 ### Multi-Branch Development

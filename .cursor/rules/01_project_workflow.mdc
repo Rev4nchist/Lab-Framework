@@ -21,6 +21,7 @@
 - **Browser testing**: BrowserBase MCP for live validation
 - **Code review**: GitHub MCP for PR workflows
 - **Error resolution**: Desktop Commander for CLI diagnostics
+- **MCP Strategy**: See [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for optimal tool selection
 
 ### 4. **Close Loop**
 - **Mark complete**: `set_task_status --id=<subtask> --status=done`
