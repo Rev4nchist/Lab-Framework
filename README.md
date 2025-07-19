@@ -2,6 +2,19 @@
 
 > Transform your development process with structured innovation and AI-powered workflows
 
+---
+
+## 🤖 **NEW USER? TELL YOUR AI AGENT!**
+
+**Just cloned this repository?** Tell any AI assistant:
+> "I just cloned the Lab Framework"
+
+Your AI agent will **immediately guide you through setup** - no searching for docs needed! This triggers our revolutionary agent-driven onboarding that gets you productive in 20 minutes.
+
+📋 **[View Complete Setup Guide](GETTING_STARTED.md)** | 🤖 **[Agent Training Protocol](AGENT_ONBOARDING_PROTOCOL.md)**
+
+---
+
 ## 🎯 What is The Lab?
 
 The Lab is a comprehensive development workspace framework designed for rapid ideation, prototyping, and project incubation. It combines the power of AI tools (TaskMaster, Claude Code), structured organization, and automated workflows to accelerate development cycles by 30-50%.
