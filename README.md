@@ -17,37 +17,59 @@ Your AI agent will **immediately guide you through setup** - no searching for do
 
 ## 🎯 What is The Lab?
 
-The Lab is a comprehensive development workspace framework designed for rapid ideation, prototyping, and project incubation. It combines the power of AI tools (TaskMaster, Claude Code), structured organization, and automated workflows to accelerate development cycles by 30-50%.
+The Lab is a comprehensive development workspace framework designed for rapid ideation, prototyping, and project incubation. It combines the power of AI tools (TaskMaster, **Claude Code + IDE integration**), structured organization, and automated workflows to accelerate development cycles by 30-50%.
+
+### Key Features
+- 🤖 **Claude Code Integration** - AI-powered coding directly in your IDE
+- 📋 **TaskMaster Integration** - Intelligent project management
+- 🔧 **MCP Server Support** - Enhanced AI tool connectivity  
+- 🐳 **Docker Ready** - Containerized development workflows
+- ⚡ **Automated Setup** - 20-minute onboarding to full productivity
 
 ## 🚀 Quick Setup
 
 ### Prerequisites
+- **Claude Code CLI** - AI-powered coding assistant ([Download](https://claude.ai/download))
+- **Supported IDE** - VS Code, Cursor, Windsurf, or JetBrains IDEs
 - **TaskMaster AI** - Project management and task tracking
-- **Claude Code** - AI-powered code generation (optional but recommended)
-- **Docker** - For containerized development
-- **Azure CLI** - For cloud deployment (optional)
+- **Docker** - For containerized development (optional)
 - **PowerShell** - For automation scripts (Windows) or PowerShell Core (cross-platform)
+- **Azure CLI** - For cloud deployment (optional)
 
 ### Installation
 
 1. **Clone this repository**:
    ```bash
-   git clone [your-repo-url] my-lab
+   git clone https://github.com/Rev4nchist/Lab-Framework.git my-lab
    cd my-lab
    ```
 
-2. **Initialize your Lab workspace**:
-   ```bash
-   # Make scripts executable (if needed)
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+2. **Run automated setup wizard**:
+   ```powershell
+   # Windows/PowerShell
+   .\core-tools\scripts\setup-wizard.ps1
    
-   # Your Lab is ready!
+   # This will guide you through:
+   # ✅ Prerequisites validation
+   # ✅ MCP server configuration
+   # ✅ Claude Code + IDE integration
+   # ✅ Project structure setup
+   # ✅ Final validation
    ```
 
-3. **Set up TaskMaster** (if not already installed):
-   ```bash
-   # Follow TaskMaster installation guide
-   # Configure your API keys and preferences
+3. **Complete Claude Code integration**:
+   ```powershell
+   # Dedicated Claude Code + IDE setup
+   .\core-tools\scripts\setup-claude-ide.ps1
+   
+   # Test integration
+   # Press Ctrl+Esc (Windows) or Cmd+Esc (Mac) in your IDE
+   ```
+
+4. **Validate setup**:
+   ```powershell
+   # Comprehensive validation
+   .\core-tools\scripts\validate-setup.ps1
    ```
 
 ## 🏗️ Lab Structure
@@ -89,15 +111,20 @@ git init
 
 ### 3. 🔨 Development
 ```bash
+# Launch IDE with Claude Code integration
+cursor projects/2025-01-customer-portal/
+
+# Use Claude Code for AI assistance (Ctrl+Esc / Cmd+Esc)
+# - Select code and get targeted help
+# - Use file references for broader context
+# - View diffs directly in your IDE
+
 # Use Docker for isolation
 docker build -t customer-portal .
 docker run -p 8000:8000 customer-portal
 
-# Leverage AI assistance
-claude code "implement user authentication with JWT"
-
-# Update progress
-task-master update-subtask --id [id] --prompt "Implemented JWT auth"
+# Update progress in TaskMaster
+task-master update-subtask --id [id] --prompt "Implemented JWT auth with Claude Code assistance"
 ```
 
 ### 4. 🚢 Graduation
@@ -207,25 +234,64 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 # Check API keys and connectivity
 ```
 
+**Claude Code integration issues**:
+```bash
+# Run diagnostic and setup script
+.\core-tools\scripts\setup-claude-ide.ps1 -TestMode
+
+# Check troubleshooting guide
+# See: docs-hub/guides/claude-code-setup-guide.md
+```
+
 ## 📚 Documentation
 
 - **[The Lab README](docs-hub/THE_LAB_README.md)** - Complete workspace documentation
 - **[Project Templates](docs-hub/templates/)** - Ready-to-use project templates
 - **[Cursor Rules](.cursor/rules/)** - IDE automation configuration
 
+## 🤖 Claude Code + IDE Integration
+
+The Lab Framework includes comprehensive Claude Code integration for AI-powered development:
+
+### Features
+- **🚀 Quick Launch** - `Ctrl+Esc` / `Cmd+Esc` to activate Claude in any IDE
+- **📁 File References** - `Ctrl+Alt+K` / `Cmd+Option+K` for context sharing
+- **🔍 Selection Context** - Select code and get targeted assistance
+- **📊 IDE Diff Viewing** - See changes directly in your editor
+- **⚙️ Smart Configuration** - Optimized settings for each IDE
+
+### Supported IDEs
+- **VS Code** - Full integration with extension auto-install
+- **Cursor** - Native support with enhanced features  
+- **Windsurf** - Complete compatibility and optimization
+- **JetBrains IDEs** - IntelliJ, PyCharm, WebStorm, PhpStorm, etc.
+
+### Setup Guide
+📖 **[Complete Claude Code Setup Guide](docs-hub/guides/claude-code-setup-guide.md)**
+
+```powershell
+# Automated setup and testing
+.\core-tools\scripts\setup-claude-ide.ps1
+
+# Validate integration
+.\core-tools\scripts\validate-setup.ps1
+```
+
 ## 🚀 What's Next?
 
-1. **Create your first project** using the scripts
-2. **Customize templates** for your tech stack
-3. **Set up TaskMaster integration** for AI project management
-4. **Scale across your team** with consistent workflows
+1. **Complete Claude Code integration** using our setup script
+2. **Create your first project** using the automation scripts
+3. **Customize templates** for your tech stack  
+4. **Set up TaskMaster integration** for AI project management
+5. **Scale across your team** with consistent workflows
 
 ## 🎭 Advanced Features
 
 ### AI Integration
-- **TaskMaster** for intelligent project management
-- **Claude Code** for AI-powered development
-- **Automated workflow enforcement** via Cursor rules
+- **Claude Code + IDE Integration** - AI-powered coding directly in your editor
+- **TaskMaster** for intelligent project management and task tracking
+- **MCP Server Support** - Desktop Commander, BrowserBase, Context7, Memory
+- **Automated workflow enforcement** via Cursor rules and smart templates
 
 ### Azure Ready
 - **Container Apps** deployment templates

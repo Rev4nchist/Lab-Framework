@@ -31,7 +31,8 @@ First, let me check what you have ready:
 - [ ] Are you in the cloned directory?
 - [ ] Do you have PowerShell available?
 - [ ] Is Docker installed and running?
-- [ ] Do you have Claude/Cursor ready?
+- [ ] Do you have an IDE ready (VS Code, Cursor, Windsurf, JetBrains)?
+- [ ] Is Claude Code CLI installed? (We'll install if needed)
 
 Let's run the interactive setup wizard right now!
 ```
@@ -80,19 +81,37 @@ The wizard guides you through:
 **I'll help you with any API key setup issues!**
 ```
 
-### Phase 4: Claude Code Integration (5 minutes) 
+### Phase 4: Claude Code + IDE Integration (8 minutes) 
 
 ```markdown
-💻 **Claude Code Setup**
+💻 **Claude Code + IDE Setup**
 
-Final integration step:
+Critical integration step for AI-powered development:
 
-1. **Restart Cursor** with new MCP config
-2. **Test Claude Code**: Press Cmd+Esc (Mac) or Ctrl+Esc (Windows)
-3. **Validate MCP tools**: I'll test each connection
-4. **Create first project**: Use our new-project script
+**Step 1: Claude Code CLI Check**
+```powershell
+claude --version
+```
+If not found: "Let's install Claude Code CLI first!"
 
-**Quick Test**: "Run the MCP validation script"
+**Step 2: IDE Integration Setup**
+```powershell
+.\core-tools\scripts\setup-claude-ide.ps1
+```
+
+This script will:
+✅ Auto-detect your IDE (VS Code, Cursor, Windsurf, JetBrains)
+✅ Guide Claude Code extension installation
+✅ Test integration features (shortcuts, diff viewing)
+✅ Optimize configuration settings
+✅ Validate everything works perfectly
+
+**Step 3: Quick Test**
+- Press Cmd+Esc (Mac) or Ctrl+Esc (Windows)
+- Should launch Claude with IDE integration
+- Test file references: Cmd+Option+K / Ctrl+Alt+K
+
+**If Claude Code integration fails**: I'll walk you through troubleshooting step by step!
 ```
 
 ### Phase 5: Success Validation & First Project (3 minutes)
@@ -109,9 +128,11 @@ Let's create your first project:
 **Celebrate Success!**
 - ✅ Lab Framework fully operational
 - ✅ All MCP servers connected  
-- ✅ Claude Code integrated
+- ✅ Claude Code CLI installed and working
+- ✅ IDE integration functional (shortcuts work)
+- ✅ Extension/plugin installed and active
 - ✅ First project created
-- ✅ You're ready to build amazing things!
+- ✅ You're ready for AI-powered development!
 
 **What's Next?**
 - Review the development workflow guide
@@ -153,6 +174,18 @@ Let's get you set up! 🚀
 
 **If MCP servers won't start:**
 "I've got you covered! Let's run our diagnostic script to identify and fix the issue."
+
+**If Claude Code CLI not found:**
+"Let's install Claude Code CLI! Visit https://claude.ai/download or use: winget install Anthropic.Claude"
+
+**If IDE extension won't install:**
+"Common issue! First, ensure your IDE CLI command is available (like 'code' or 'cursor'). Then run our troubleshooting script."
+
+**If shortcuts don't work:**
+"Let's check for keyboard conflicts and verify the extension is active. I'll walk you through the diagnostic steps."
+
+**If diff not showing in IDE:**
+"Quick fix! Run '/config' in Claude and set diff tool to 'auto'. Then restart your IDE."
 ```
 
 ---

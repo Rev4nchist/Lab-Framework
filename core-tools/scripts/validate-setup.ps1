@@ -72,6 +72,16 @@ function Test-Prerequisites {
         Write-TestResult "Git" $false "Not found"
     }
     
+    # Test Claude Code CLI
+    try {
+        $claudeVersion = claude --version 2>$null
+        $results.ClaudeCode = $claudeVersion -and $LASTEXITCODE -eq 0
+        Write-TestResult "Claude Code CLI" $results.ClaudeCode $claudeVersion
+    } catch {
+        $results.ClaudeCode = $false
+        Write-TestResult "Claude Code CLI" $false "Not found - install from https://claude.ai/download"
+    }
+    
     return $results
 }
 
@@ -152,6 +162,54 @@ function Test-Scripts {
     return $results
 }
 
+function Test-IDEIntegration {
+    Write-Host "`n🎨 Testing IDE Integration..." -ForegroundColor "Cyan"
+    
+    $results = @{}
+    
+    # Detect available IDEs with CLI commands
+    $ides = @{
+        "VSCode" = @("code")
+        "Cursor" = @("cursor") 
+        "Windsurf" = @("windsurf")
+        "JetBrains" = @("idea", "pycharm", "webstorm", "phpstorm")
+    }
+    
+    $detectedIDEs = @()
+    foreach ($ide in $ides.Keys) {
+        foreach ($command in $ides[$ide]) {
+            try {
+                & $command --version 2>$null | Out-Null
+                if ($LASTEXITCODE -eq 0) {
+                    $detectedIDEs += $ide
+                    $results."$ide" = $true
+                    Write-TestResult "IDE CLI: $ide ($command)" $true "Command available"
+                    break
+                }
+            } catch {
+                # Command not found, continue
+            }
+        }
+        if (-not $results.ContainsKey($ide)) {
+            $results.$ide = $false
+            Write-TestResult "IDE CLI: $ide" $false "No CLI command found"
+        }
+    }
+    
+    # Overall IDE integration status
+    $hasIDE = $detectedIDEs.Count -gt 0
+    $results.AnyIDE = $hasIDE
+    Write-TestResult "IDE Integration Ready" $hasIDE "$($detectedIDEs.Count) IDE(s) with CLI detected"
+    
+    if ($hasIDE) {
+        Write-Host "    💡 Run setup-claude-ide.ps1 to complete IDE integration" -ForegroundColor "Gray"
+    } else {
+        Write-Host "    ⚠️ Install IDE CLI tools for better Claude Code integration" -ForegroundColor "Gray"
+    }
+    
+    return $results
+}
+
 function Test-Performance {
     if ($Quick) { return @{} }
     
@@ -182,6 +240,7 @@ $allResults.Prerequisites = Test-Prerequisites
 $allResults.ProjectStructure = Test-ProjectStructure  
 $allResults.MCPConfiguration = Test-MCPConfiguration
 $allResults.Scripts = Test-Scripts
+$allResults.IDEIntegration = Test-IDEIntegration
 $allResults.Performance = Test-Performance
 
 # Calculate overall score

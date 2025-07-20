@@ -109,6 +109,96 @@ function Debug-Environment {
     }
 }
 
+function Debug-ClaudeCodeIntegration {
+    Write-DebugHeader "Claude Code + IDE Integration Analysis"
+    
+    # Test Claude Code CLI
+    try {
+        $claudeVersion = claude --version 2>$null
+        if ($claudeVersion -and $LASTEXITCODE -eq 0) {
+            Write-Success "Claude Code CLI installed: $claudeVersion"
+        } else {
+            Write-Issue "Claude Code CLI not working" "Install/reinstall Claude Code CLI" "Download from https://claude.ai/download"
+            return
+        }
+    } catch {
+        Write-Issue "Claude Code CLI not found" "Install Claude Code CLI" "winget install Anthropic.Claude or visit https://claude.ai/download"
+        return
+    }
+    
+    # Detect available IDEs
+    $ides = @{
+        "VS Code" = @("code")
+        "Cursor" = @("cursor")
+        "Windsurf" = @("windsurf")
+        "JetBrains" = @("idea", "pycharm", "webstorm", "phpstorm", "rubymine")
+    }
+    
+    $detectedIDEs = @()
+    foreach ($ide in $ides.Keys) {
+        foreach ($command in $ides[$ide]) {
+            try {
+                & $command --version 2>$null | Out-Null
+                if ($LASTEXITCODE -eq 0) {
+                    $detectedIDEs += @{
+                        Name = $ide
+                        Command = $command
+                    }
+                    Write-Success "IDE CLI available: $ide ($command)"
+                    break
+                }
+            } catch {
+                # Continue checking other commands
+            }
+        }
+    }
+    
+    if ($detectedIDEs.Count -eq 0) {
+        Write-Issue "No IDE CLI commands found" "Install IDE CLI tools" "VS Code: Install 'Shell Command: Install code command in PATH'"
+        Write-Host "Available IDEs need CLI setup:" -ForegroundColor Yellow
+        Write-Host "  • VS Code: Cmd+Shift+P → 'Shell Command: Install code command in PATH'" -ForegroundColor Gray
+        Write-Host "  • Cursor: Should be available after installation" -ForegroundColor Gray
+        Write-Host "  • JetBrains: Enable 'Generate shell scripts' in Toolbox" -ForegroundColor Gray
+        return
+    }
+    
+    Write-Success "Found $($detectedIDEs.Count) IDE(s) with CLI support"
+    
+    # Test Claude Code in IDE context
+    Write-Info "Testing Claude Code integration features..."
+    
+    # Check if extensions/plugins are likely installed
+    $extensionPaths = @(
+        "$env:USERPROFILE\.vscode\extensions\anthropic.claude-code*",
+        "$env:USERPROFILE\.cursor\extensions\anthropic.claude-code*"
+    )
+    
+    $extensionFound = $false
+    foreach ($path in $extensionPaths) {
+        if (Test-Path $path) {
+            Write-Success "Claude Code extension found in extensions directory"
+            $extensionFound = $true
+            break
+        }
+    }
+    
+    if (-not $extensionFound) {
+        Write-Issue "Claude Code extension not detected" "Run IDE integration setup" ".\core-tools\scripts\setup-claude-ide.ps1"
+    }
+    
+    # Suggest integration testing
+    Write-Info "To complete integration testing:"
+    Write-Host "  1. Run: .\core-tools\scripts\setup-claude-ide.ps1" -ForegroundColor Cyan
+    Write-Host "  2. Test shortcuts: Ctrl+Esc (Windows) / Cmd+Esc (Mac)" -ForegroundColor Cyan
+    Write-Host "  3. Test file references: Ctrl+Alt+K / Cmd+Option+K" -ForegroundColor Cyan
+    
+    # Check common configuration issues
+    Write-Info "Common Claude Code issues to check:"
+    Write-Host "  • Diff tool setting: Run '/config' in Claude, set to 'auto'" -ForegroundColor Gray
+    Write-Host "  • Keyboard conflicts: Check IDE keymap settings" -ForegroundColor Gray
+    Write-Host "  • Extension enabled: Verify in IDE extensions/plugins list" -ForegroundColor Gray
+}
+
 function Debug-MCPConfiguration {
     Write-DebugHeader "MCP Configuration Analysis"
     
@@ -357,6 +447,9 @@ Write-Host "Diagnosing MCP server issues...`n" -ForegroundColor Gray
 # Environment check
 Debug-Environment
 
+# Claude Code integration check
+Debug-ClaudeCodeIntegration
+
 # Configuration check
 $mcpConfig = Debug-MCPConfiguration
 
@@ -367,7 +460,7 @@ if ($mcpConfig) {
     # Server-specific debugging
     if ($Server) {
         if ($mcpConfig.mcpServers.PSObject.Properties.Name -contains $Server) {
-            Debug-SpecificServer $Server $mcpConfig.mcpServers.${Server}
+            Debug-SpecificServer $Server $mcpConfig.mcpServers.$Server
         } else {
             Write-Issue "Server '$Server' not found" "Check server name" "Available: $($mcpConfig.mcpServers | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name)"
         }
@@ -375,7 +468,7 @@ if ($mcpConfig) {
         # Debug all servers
         $servers = $mcpConfig.mcpServers | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
         foreach ($serverName in $servers) {
-            Debug-SpecificServer $serverName $mcpConfig.mcpServers.${serverName}
+            Debug-SpecificServer $serverName $mcpConfig.mcpServers.$serverName
         }
     }
 }
