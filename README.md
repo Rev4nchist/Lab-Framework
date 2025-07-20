@@ -1,6 +1,7 @@
 # 🧪 The Lab - AI Development Workspace Framework
 
 > Transform your development process with structured innovation and AI-powered workflows
+> a complete environment set up guide for our teammates to clone and set up a custom workspace
 
 ---
 
