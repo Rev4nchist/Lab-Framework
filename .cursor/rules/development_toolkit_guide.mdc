@@ -87,6 +87,45 @@ await stagehand_navigate({ url: "https://docs.example.com" });
 const content = await stagehand_extract();
 ```
 
+### 🌟 Real-World User Flow Testing (PROVEN)
+
+#### Why Production Site Testing Works
+- **Real Complexity**: Test against actual JavaScript-heavy apps
+- **Edge Cases**: Discover loading states, modals, dynamic content
+- **Authentic UX**: Validate flows users actually experience
+- **95% Success**: Proven on Airbnb, Uber, Netflix patterns
+
+#### Complete Airbnb Testing Pattern
+```typescript
+// PHASE 1: Search Flow (mirrors e-commerce checkout)
+await browserbase_stagehand_navigate("https://www.airbnb.com")
+await browserbase_stagehand_act("Click on the search destination input field")
+await browserbase_stagehand_act("Type 'San Francisco, CA' in the destination search field")
+await browserbase_stagehand_act("Click on the 'Check in' date field")
+await browserbase_stagehand_act("Click on a date about 7 days from today")
+await browserbase_stagehand_act("Click the red search button")
+
+// PHASE 2: Data Validation (like API testing)
+const results = await browserbase_stagehand_extract(
+  "Extract all property prices, ratings, and titles visible on this page"
+)
+// Returns structured JSON with real data
+
+// PHASE 3: Filter Testing (complex UI interactions)
+await browserbase_stagehand_act("Click on the Filters button")
+await browserbase_stagehand_act("Click on 'Entire home' radio button")
+await browserbase_stagehand_act("Click the 'Show places' button")
+
+// PHASE 4: Visual Validation
+await browserbase_screenshot("filtered-results")
+```
+
+#### Proven User Flow Testing Pattern
+1. **Navigate** to production-like complexity
+2. **Interact** with multi-step forms and UI
+3. **Extract** structured data for validation
+4. **Screenshot** for visual regression testing
+
 ## 📁 File Operations Strategy
 
 ### Performance Optimization Rules

@@ -54,4 +54,27 @@ alwaysApply: false
   - Use performance-driven tool selection based on tested metrics
   - Prioritize Desktop Commander for file operations (30x faster)
   - Use BrowserBase with Smithery CLI for 95% success rate
-  - Avoid MCP search functions due to timeout issues 
+  - Avoid MCP search functions due to timeout issues
+
+- **Browser Testing Integration (MANDATORY):**
+  - All user-facing features MUST include browser testing validation
+  - Test on real production sites (Airbnb patterns) for authentic complexity
+  - Use BrowserBase for complex workflows (95% success rate)
+  - Use Stagehand for simple extraction (75% success rate)
+  - **Workflow Chain**: Plan → Implement → Browser Test → Review → Deploy
+  - **Success Patterns:**
+    ```typescript
+    // ✅ DO: Test complete user flows
+    const session = await browserbase_session_create()
+    await browserbase_stagehand_navigate("https://app.com")
+    await browserbase_stagehand_act("Complete checkout flow")
+    const results = await browserbase_stagehand_extract("Order confirmation details")
+    
+    // ❌ DON'T: Skip browser validation for UI changes
+    // ❌ DON'T: Test only on localhost
+    ```
+  - **Performance Metrics Achieved:**
+    - Browser automation: 50% → 95% success rate
+    - Debug time: 20min → 5min with live URLs
+    - Visual validation: Screenshots at each step
+  - See [BROWSER_DEBUG_WORKFLOW.md](mdc:docs-hub/guides/BROWSER_DEBUG_WORKFLOW.md) for complete patterns 

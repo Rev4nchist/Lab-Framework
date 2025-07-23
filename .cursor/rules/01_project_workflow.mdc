@@ -15,10 +15,14 @@
 - **Checkpoint regularly**: `/user:git --checkpoint` at subtask boundaries
 - **Reference documentation**: Use `--c7 "[library]"` flag for Context7 lookups
 
-### 3. **Validate (MCP Integration + Testing)**
+### 3. **Validate (MCP Integration + MANDATORY Browser Testing)**
 - **View changes**: Use IDE-native diff viewing
 - **Research best practices**: Context7 MCP for documentation (`--c7`)
-- **Browser testing**: BrowserBase MCP for live validation
+- **🚨 MANDATORY Browser Testing**: BrowserBase + Stagehand for real-world user flow validation
+  - **Real-World Testing**: Test on production sites (Airbnb patterns) for authentic complexity
+  - **Success Indicators**: ✅ User flows complete ✅ Data extraction works ✅ Screenshots confirm UI
+  - **95% Success Rate**: Use Smithery CLI configuration for BrowserBase
+  - **Live Debug URLs**: Real-time monitoring and debugging
 - **Code review**: GitHub MCP for PR workflows
 - **Error resolution**: Desktop Commander for CLI diagnostics
 - **MCP Strategy**: See [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for optimal tool selection
@@ -36,7 +40,8 @@
 | **Desktop Commander** | CLI execution | Direct terminal commands in chat |
 | **Context7** | Documentation lookup | `--c7 "react hooks"` |
 | **GitHub** | Repository management | PR creation, issue tracking |
-| **BrowserBase** | Web automation | Testing, research |
+| **BrowserBase** ⭐ | Real-world user flow testing (95% success) | Complex workflows, live debugging |
+| **Stagehand** | Simple browser automation | Quick extraction, basic interaction |
 | **Docker Memory** | Knowledge persistence | Cross-session memory |
 
 ## Workflow Patterns
@@ -84,6 +89,27 @@ tm research --query="best practices for JWT refresh tokens"
 
 # Browser research for real-time info
 # In chat: "Search for latest OAuth 2.0 security recommendations"
+```
+
+### Real-World User Flow Testing
+```typescript
+# Test your app like users actually use it
+browserbase_session_create()
+browserbase_stagehand_navigate("https://your-app.com")
+
+# Execute complete user journey
+browserbase_stagehand_act("Click login button")
+browserbase_stagehand_act("Fill email field with test@example.com")
+browserbase_stagehand_act("Fill password field")
+browserbase_stagehand_act("Submit login form")
+
+# Validate with structured extraction
+const userData = await browserbase_stagehand_extract(
+  "Extract user dashboard data including name, role, and permissions"
+)
+
+# Visual validation
+browserbase_screenshot("dashboard-loaded")
 ```
 
 ## Key Principles

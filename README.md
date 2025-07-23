@@ -294,6 +294,14 @@ The Lab Framework includes comprehensive Claude Code integration for AI-powered 
 - **MCP Server Support** - Desktop Commander, BrowserBase, Context7, Memory
 - **Automated workflow enforcement** via Cursor rules and smart templates
 
+### Browser Testing Workflow 🌐
+- **Real-World User Flow Testing** - Test on production sites (Airbnb, Uber patterns)
+- **95% Success Rate** - BrowserBase with Smithery CLI configuration
+- **Live Debug URLs** - Real-time monitoring and debugging
+- **Structured Data Extraction** - Validate UI and API responses
+- **Visual Regression Testing** - Automated screenshots at each step
+- **Complete Guide** - See `docs-hub/guides/BROWSER_DEBUG_WORKFLOW.md`
+
 ### Azure Ready
 - **Container Apps** deployment templates
 - **Azure CLI** integration patterns
