@@ -91,10 +91,14 @@ your-lab/
 
 ## 🌊 The Lab Workflow
 
-### 1. 📋 **PRD Submission** → Company meeting ideas → Product Requirements Document
-### 2. 🤖 **TaskMaster Parsing** → AI breaks down PRD into complete project structure  
-### 3. 🔨 **AI-Assisted Development** → Structured implementation with automated workflows
-### 4. 🚢 **Project Graduation** → Docker containerization → Azure deployment
+### 1. 📋 **PRD Submission** 
+→ Company meeting ideas → Product Requirements Document
+### 2. 🤖 **TaskMaster Parsing** 
+→ AI breaks down PRD into complete project structure  
+### 3. 🔨 **AI-Assisted Development** 
+→ Structured implementation with automated workflows
+### 4. 🚢 **Project Graduation** 
+→ Docker containerization → Azure deployment
 
 ## 🎯 **The Complete Pipeline: PRD → Production**
 
