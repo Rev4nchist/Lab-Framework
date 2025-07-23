@@ -91,26 +91,44 @@ your-lab/
 
 ## 🌊 The Lab Workflow
 
-### 1. 💡 Ideation
+### 1. 📋 **PRD Submission** → Company meeting ideas → Product Requirements Document
+### 2. 🤖 **TaskMaster Parsing** → AI breaks down PRD into complete project structure  
+### 3. 🔨 **AI-Assisted Development** → Structured implementation with automated workflows
+### 4. 🚢 **Project Graduation** → Docker containerization → Azure deployment
+
+## 🎯 **The Complete Pipeline: PRD → Production**
+
+### From Company Meeting to Live Deployment
+
 ```bash
-# Capture ideas in TaskMaster
-task-master add-task --prompt "Build customer portal with Azure backend"
+# 📋 STEP 1: Create PRD from meeting notes
+# Use docs-hub/templates/example_prd.txt as starting point
+cp docs-hub/templates/example_prd.txt docs-hub/my-customer-portal-prd.txt
 
-# Research and document in docs-hub/
-```
+# 🤖 STEP 2: AI parses PRD into complete task breakdown
+tm parse-prd "docs-hub/my-customer-portal-prd.txt" --tag=customer-portal --research
 
-### 2. 🛠️ Project Creation
-```bash
-# Automated project setup
-.\core-tools\scripts\new-project.ps1 -ProjectName "Customer Portal" -Template node
+# 📊 STEP 3: Review AI-generated project structure
+tm list --tag=customer-portal --with-subtasks
+tm analyze-complexity --tag=customer-portal --research
 
-# Or manual setup
-mkdir projects/2025-01-customer-portal
+# 🚀 STEP 4: Graduate to production-ready project
+tm graduate --tag=customer-portal --to=projects/2025-01-customer-portal
+
+# 🐳 STEP 5: Containerized deployment with Azure
 cd projects/2025-01-customer-portal
-git init
+docker build -t customer-portal .
+az containerapp up --name customer-portal --source .
 ```
 
-### 3. 🔨 Development
+### 🏆 **Project Graduation Benefits:**
+- **Structured Codebase**: Follows enterprise patterns
+- **Docker Ready**: Multi-stage builds with Microsoft base images  
+- **Azure Integration**: Container Apps, Key Vault, Application Insights
+- **CI/CD Pipeline**: GitHub Actions + Azure DevOps integration
+- **Documentation**: Auto-generated from TaskMaster task structure
+
+## 🔨 Development Process
 ```bash
 # Launch IDE with Claude Code integration
 cursor projects/2025-01-customer-portal/
