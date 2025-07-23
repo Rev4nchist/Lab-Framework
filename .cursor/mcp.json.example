@@ -1,0 +1,66 @@
+{
+  "mcpServers": {
+    "context7-mcp": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp-server"],
+      "env": {
+        "CONTEXT7_API_KEY": ""
+      }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "@21st-dev/magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/mcp-magic"]
+    },
+    "ElevenLabs": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-elevenlabs"],
+      "env": {
+        "ELEVENLABS_API_KEY": "YOUR-ELEVENLABS-KEY"
+      }
+    },
+    "mcp-browserbase": {
+      "command": "cmd",
+      "args": [
+        "/c", "npx", "-y", "@smithery/cli@latest", "run",
+        "@browserbasehq/mcp-browserbase",
+        "--key", "YOUR-BROWSERBASE-API-KEY",
+        "--profile", "YOUR-BROWSERBASE-PROFILE-ID"
+      ]
+    },
+    "Stagehand": {
+      "command": "npx",
+      "args": ["-y", "@browserbasehq/stagehand"],
+      "env": {
+        "BROWSERBASE_API_KEY": "YOUR-BROWSERBASE-KEY",
+        "BROWSERBASE_PROJECT_ID": "YOUR-PROJECT-ID"
+      }
+    },
+    "Desktop Commander": {
+      "command": "npx",
+      "args": ["-y", "@pierreg/server-desktop-commander"]
+    },
+    "MCP_DOCKER": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm", "--pull", "always",
+        "-v", "mcp_data:/app/dist",
+        "-e", "ANTHROPIC_API_KEY=YOUR-ANTHROPIC-KEY",
+        "-e", "PERPLEXITY_API_KEY=YOUR-PERPLEXITY-KEY",
+        "-e", "OPENAI_API_KEY=YOUR-OPENAI-KEY",
+        "-e", "GOOGLE_API_KEY=YOUR-GOOGLE-KEY",
+        "-e", "MISTRAL_API_KEY=YOUR-MISTRAL-KEY",
+        "-e", "XAI_API_KEY=YOUR-XAI-KEY",
+        "-e", "OPENROUTER_API_KEY=YOUR-OPENROUTER-KEY",
+        "-e", "AZURE_OPENAI_API_KEY=YOUR-AZURE-KEY",
+        "-e", "OLLAMA_API_KEY=YOUR-OLLAMA-KEY",
+        "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=YOUR-GITHUB-TOKEN",
+        "-e", "FIRECRAWL_API_KEY=YOUR-FIRECRAWL-KEY",
+        "ghcr.io/bartolli/mcp-docker:latest"
+      ]
+    }
+  }
+} 

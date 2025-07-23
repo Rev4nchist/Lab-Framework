@@ -1,0 +1,159 @@
+# 🚀 The Lab Development Workflow
+
+## End-to-End Development Flow
+
+### 1. **Plan (Cursor Chat + TaskMaster MCP)**
+- **Start with next task**: Use `next_task` MCP or `tm next` via Desktop Commander
+- **Activate SuperClaude persona** (if using): `/persona:architect` for design, `/persona:engineer` for implementation
+- **Break down complex work**: `expand_task --id=<id> --research` to create subtasks
+- **Document approach**: Use `update_subtask` to log plans and decisions
+
+### 2. **Implement (Claude Code + AI Enhancement)**
+- **Launch Claude Code**: Cmd+Esc (Mac) or Ctrl+Esc (Windows) for seamless IDE access
+- **Use AI assistance**: `claude code "implement [feature]"` with auto-context
+- **Track progress**: `update_subtask --id=<id> --prompt="[progress notes]"` 
+- **Checkpoint regularly**: `/user:git --checkpoint` at subtask boundaries
+- **Reference documentation**: Use `--c7 "[library]"` flag for Context7 lookups
+
+### 3. **Validate (MCP Integration + MANDATORY Browser Testing)**
+- **View changes**: Use IDE-native diff viewing
+- **Research best practices**: Context7 MCP for documentation (`--c7`)
+- **🚨 MANDATORY Browser Testing**: BrowserBase + Stagehand for real-world user flow validation
+  - **Real-World Testing**: Test on production sites (Airbnb patterns) for authentic complexity
+  - **Success Indicators**: ✅ User flows complete ✅ Data extraction works ✅ Screenshots confirm UI
+  - **95% Success Rate**: Use Smithery CLI configuration for BrowserBase
+  - **Live Debug URLs**: Real-time monitoring and debugging
+- **Code review**: GitHub MCP for PR workflows
+- **Error resolution**: Desktop Commander for CLI diagnostics
+- **MCP Strategy**: See [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for optimal tool selection
+
+### 4. **Close Loop**
+- **Mark complete**: `set_task_status --id=<subtask> --status=done`
+- **Update parent task**: Progress automatically tracked
+- **Next iteration**: Return to step 1 with `next_task`
+
+## Active MCP Servers
+
+| MCP Server | Purpose | Usage Example |
+|------------|---------|---------------|
+| **TaskMaster** | Project management | `tm next`, `tm expand --id=5` |
+| **Desktop Commander** | CLI execution | Direct terminal commands in chat |
+| **Context7** | Documentation lookup | `--c7 "react hooks"` |
+| **GitHub** | Repository management | PR creation, issue tracking |
+| **BrowserBase** ⭐ | Real-world user flow testing (95% success) | Complex workflows, live debugging |
+| **Stagehand** | Simple browser automation | Quick extraction, basic interaction |
+| **Docker Memory** | Knowledge persistence | Cross-session memory |
+
+## Workflow Patterns
+
+### Starting New Features
+```bash
+# 1. Create feature tag
+tm add-tag feature-auth --description="Authentication system"
+tm use-tag feature-auth
+
+# 2. Parse feature PRD
+tm parse-prd docs/auth-prd.txt --force
+
+# 3. Analyze and expand
+tm analyze-complexity --research
+tm expand --all --research
+
+# 4. Begin implementation
+tm next
+```
+
+### Daily Development Rhythm
+```bash
+# Morning: Check status
+tm list --status=pending --with-subtasks
+tm next
+
+# During work: Update progress
+tm update-subtask --id=5.2 --prompt="Implemented JWT validation"
+
+# Task completion
+tm set-status --id=5.2 --status=done
+
+# End of day: Summary
+tm show 5 --with-subtasks
+```
+
+### Research-Driven Development
+```bash
+# Research before implementing
+tm research --query="best practices for JWT refresh tokens"
+
+# Use Context7 for library docs
+# In chat: "--c7 jsonwebtoken"
+
+# Browser research for real-time info
+# In chat: "Search for latest OAuth 2.0 security recommendations"
+```
+
+### Real-World User Flow Testing
+```typescript
+# Test your app like users actually use it
+browserbase_session_create()
+browserbase_stagehand_navigate("https://your-app.com")
+
+# Execute complete user journey
+browserbase_stagehand_act("Click login button")
+browserbase_stagehand_act("Fill email field with test@example.com")
+browserbase_stagehand_act("Fill password field")
+browserbase_stagehand_act("Submit login form")
+
+# Validate with structured extraction
+const userData = await browserbase_stagehand_extract(
+  "Extract user dashboard data including name, role, and permissions"
+)
+
+# Visual validation
+browserbase_screenshot("dashboard-loaded")
+```
+
+## Key Principles
+
+### TaskMaster as Source of Truth
+- All task status lives in TaskMaster
+- Use MCP tools or CLI commands (never manual JSON edits)
+- Tags organize parallel work streams
+- Dependencies ensure correct task ordering
+
+### AI Enhancement Strategy
+- **SuperClaude** for enhanced reasoning and complex planning
+- **Context7** for accurate library documentation
+- **BrowserBase** for real-time web research
+- **Desktop Commander** for seamless CLI integration
+
+### Progress Documentation
+- Log decisions in subtask updates
+- Include reasoning for technical choices
+- Reference research findings
+- Link to relevant PRs/issues
+
+### Quality Checkpoints
+- `/user:git --checkpoint` at subtask boundaries
+- Run tests before marking tasks complete
+- Use `validate_dependencies` to ensure task order
+- Regular `analyze_complexity` for project health
+
+## Integration Points
+
+### Links to Other Rules
+- **[02_taskmaster_workflow.mdc]**: Detailed TaskMaster commands
+- **[lab_workflow.mdc]**: Lab-specific project structure
+- **[project_naming.mdc]**: Naming conventions
+- **[superclaude_bridge.mdc]**: SuperClaude integration
+- **[taskmaster.mdc]**: Complete TaskMaster reference
+
+### Tool Ecosystem
+- **TaskMaster**: Project orchestration
+- **Claude Code**: AI-powered implementation
+- **Docker**: Containerized development
+- **Azure CLI**: Cloud deployment
+- **Git**: Version control with checkpoint strategy
+
+---
+*This workflow optimizes for speed and quality through AI enhancement while maintaining human oversight and decision-making.*
+

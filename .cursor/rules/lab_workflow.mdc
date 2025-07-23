@@ -1,0 +1,61 @@
+# The Lab Workflow Rule
+
+## Core Development Cycle for The Lab
+
+### 1. Idea Capture & Planning
+- Start every new idea with TaskMaster: `task-master add-task --prompt "[idea description]"`
+- Create PRD in docs-hub/templates/ using example_prd.txt as base
+- Tag appropriately: `task-master use-tag "[project-slug]"`
+
+### 2. Project Creation
+- Create in /projects/ using date-slug format: `projects/2025-01-[project-name]/`
+- Initialize with: README.md, src/, tests/, docs/, Dockerfile
+- Initialize git: `git init` in project folder for independent tracking
+
+### 3. Development Stage
+- Use Docker for isolation: `docker build -t [slug] .`
+- Leverage Claude Code: `claude code "implement [feature]"`
+- Update TaskMaster progress: `task-master update-subtask --id [id] --prompt "[progress notes]"`
+
+### 4. Graduation Process
+- Ready for production? Use lab-graduate script
+- Create new GitHub repo: `mcp_GitHub_create_repository --name [project-name]`
+- Archive in /archives/ with date stamp
+
+### 5. Maintenance
+- Weekly cleanup: Archive inactive projects >30 days
+- Run `task-master next` to stay focused
+- Use /experiments/ for quick prototypes (git-ignored)
+
+## Examples
+
+### ✅ DO: Structured Project Start
+```bash
+task-master add-task --prompt "Build customer portal with Azure backend"
+mkdir projects/2025-01-customer-portal
+cd projects/2025-01-customer-portal
+git init
+echo "# Customer Portal\n\nFrom Lab idea to production" > README.md
+```
+
+### ❌ DON'T: Scattered Development
+```bash
+# Bad - no structure
+mkdir random-idea
+echo "code stuff" > file.js
+```
+
+## Integration Points
+- Links to: project_naming.mdc, docker_integration.mdc
+- Uses: TaskMaster MCP, GitHub MCP, Claude Code
+- References: Azure CLI patterns from core-tools/
+
+---
+description: Enforces ideation to deployment cycle in The Lab
+globs: projects/**, experiments/**
+alwaysApply: true
+---
+description:
+globs:
+alwaysApply: false
+---

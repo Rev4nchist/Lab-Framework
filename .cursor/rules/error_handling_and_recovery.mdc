@@ -1,0 +1,117 @@
+# Error Handling & Recovery Rule for EVE
+
+## Command Execution Best Practices
+
+### When Terminal Commands Fail
+
+#### 1. Don't Get Stuck - Keep Moving Forward
+- **If command fails**: Document it and continue with next steps
+- **If path issues**: Use absolute paths or edit_file tool instead
+- **If permissions**: Try alternative approach (edit_file vs move commands)
+- **If interrupted**: Acknowledge and proceed with different method
+
+#### 2. Alternative Approaches
+```bash
+# Instead of: Move-Item folder target (might fail)
+# Try: Copy then delete, or use edit_file for content
+
+# Instead of: Complex path operations
+# Use: Simple mkdir, then edit_file for content creation
+
+# Instead of: Chained commands that might break
+# Use: One command at a time with error checking
+```
+
+#### 3. Fallback Strategies
+1. **Terminal Command Fails** → Use `edit_file` to create content
+2. **Path Issues** → Use relative paths from known working directory
+3. **Permission Errors** → Create content first, organize later
+4. **Tool Interruption** → Switch to manual content creation
+
+### EVE's Error Recovery Protocol
+
+#### ✅ DO: Stay Productive During Errors
+```typescript
+// Good approach - acknowledge error and continue
+if (terminalCommandFails) {
+  logError("Command failed, switching to edit_file approach");
+  createContentDirectly();
+  continueWithNextStep();
+}
+```
+
+#### ❌ DON'T: Get Stuck in Error Loops
+```typescript
+// Bad - retrying same failing command
+while (commandFails) {
+  retryCommand(); // Don't do this!
+}
+```
+
+### Specific Lab Command Guidelines
+
+#### File Organization Commands
+```bash
+# Safe approach - test existence first
+if (Test-Path "source") { Move-Item source target }
+
+# Alternative - copy then clean up
+Copy-Item source target -Recurse
+# Then remove source if copy successful
+```
+
+#### Path Handling Rules
+- Use forward slashes in code: `projects/2025-01-app/`
+- Use backslashes in Windows commands: `projects\2025-01-app\`
+- Always quote paths with spaces: `"My Project Name"`
+- Test paths before operations: `Test-Path $path`
+
+#### Docker Commands
+```bash
+# Always check Docker status first
+docker --version
+docker info
+
+# Use specific image versions, not :latest
+FROM node:18-lts  # Good
+FROM node:latest  # Avoid
+```
+
+### Error Communication
+
+#### Report Errors Clearly
+- **What Failed**: Specific command/operation
+- **Why It Failed**: Error message or suspected cause
+- **What's Next**: Alternative approach being tried
+- **Progress Made**: What was successfully completed
+
+#### Example Error Report
+```
+"Hit PowerShell path issue with Move-Item command. 
+Switching to edit_file approach for content creation. 
+Successfully created 3 of 4 rule files, continuing with documentation."
+```
+
+### Recovery Priorities
+
+1. **Keep User Productive**: Don't block on tool issues
+2. **Document Progress**: Show what's working vs. what's not
+3. **Find Alternatives**: Multiple paths to same goal
+4. **Learn & Adapt**: Create rules to prevent similar issues
+
+## Integration with Lab Workflow
+
+- **Rule Creation**: Use edit_file for content, terminal for simple operations
+- **File Organization**: Attempt moves, fall back to copy-create pattern
+- **Docker Operations**: Always verify environment first
+- **User Communication**: Be transparent about issues and solutions
+
+---
+description: Handles command errors gracefully without blocking Lab productivity
+globs: **
+alwaysApply: true
+---
+description:
+globs:
+alwaysApply: false
+---

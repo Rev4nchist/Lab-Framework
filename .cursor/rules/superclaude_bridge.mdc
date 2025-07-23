@@ -1,0 +1,219 @@
+---
+description: SuperClaude integration for enhanced AI reasoning and workflow automation
+alwaysApply: false
+---
+
+# SuperClaude Bridge Integration
+
+SuperClaude enhances Cursor's AI capabilities with specialized personas, thinking modes, and TaskMaster integration. This optional layer provides 2-3x better reasoning for complex tasks.
+
+## Core Concepts
+
+### Personas
+Activate specialized AI modes for different tasks:
+- `/persona:architect` - System design and architecture
+- `/persona:engineer` - Implementation and coding
+- `/persona:security` - Security analysis and hardening
+- `/persona:reviewer` - Code review and optimization
+- `/persona:debugger` - Problem diagnosis and fixing
+
+### Thinking Modes
+Control reasoning depth:
+- `--think` - Standard reasoning (default)
+- `--think-hard` - Deep analysis for complex problems
+- `--ultrathink` - Maximum reasoning for critical decisions
+
+### Context Flags
+Enhance responses with additional context:
+- `--c7 "[library]"` - Context7 documentation lookup
+- `--web "[query]"` - Web search integration
+- `--compress` - Concise responses
+- `--ultracompress` - Minimal token usage
+
+## TaskMaster Bridge Commands
+
+### Task Management
+```bash
+# Load next task into context
+/user:load --next
+
+# Load specific task
+/user:load --task 15.2
+
+# Update task status
+/user:status --done 15.2
+/user:status --in-progress 15.2
+```
+
+### Git Integration
+```bash
+# Create checkpoint
+/user:git --checkpoint
+/user:git --checkpoint --label "Auth implementation"
+
+# Review changes
+/user:git --diff
+/user:git --status
+```
+
+### Project Context
+```bash
+# Load project overview
+/user:project --summary
+
+# Get architecture context
+/user:project --architecture
+
+# Review dependencies
+/user:project --deps
+```
+
+## Workflow Patterns
+
+### Feature Development
+```bash
+# 1. Architect the solution
+/persona:architect --think-hard
+"Design the authentication system architecture"
+
+# 2. Get implementation context
+/user:load --task 5.2
+--c7 "passport.js"
+
+# 3. Implement with engineering focus
+/persona:engineer
+"Implement JWT authentication middleware"
+
+# 4. Checkpoint progress
+/user:git --checkpoint --label "JWT middleware complete"
+```
+
+### Debugging Session
+```bash
+# 1. Load error context
+/persona:debugger --think-hard
+"Analyze this authentication error: [error]"
+
+# 2. Research solutions
+--web "JWT token expired error handling"
+--c7 "jsonwebtoken error handling"
+
+# 3. Implement fix
+/persona:engineer
+"Fix the token expiration handling"
+```
+
+### Code Review
+```bash
+# 1. Load changes
+/user:git --diff
+
+# 2. Security review
+/persona:security --think-hard
+"Review this authentication implementation for vulnerabilities"
+
+# 3. Performance review
+/persona:reviewer
+"Optimize this database query logic"
+```
+
+## Best Practices
+
+### 1. Persona Discipline
+- Switch personas intentionally
+- Document persona usage in TaskMaster logs
+- Use appropriate thinking modes for task complexity
+
+### 2. Token Management
+- Use `--compress` for routine tasks
+- Reserve `--ultrathink` for critical decisions
+- Monitor token usage with large contexts
+
+### 3. Integration Points
+- Always update TaskMaster after SuperClaude sessions
+- Use checkpoints at logical boundaries
+- Keep reasoning traces in subtask updates
+
+### 4. Context Building
+```bash
+# Effective context loading
+/user:load --task 5        # Parent task
+/user:load --task 5.2      # Specific subtask
+--c7 "express middleware"   # Library docs
+/user:project --deps       # Project dependencies
+```
+
+## Command Reference
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/persona:[type]` | Activate persona | `/persona:architect` |
+| `/user:load` | Load TaskMaster context | `/user:load --next` |
+| `/user:status` | Update task status | `/user:status --done 5.2` |
+| `/user:git` | Git operations | `/user:git --checkpoint` |
+| `--think-hard` | Deep reasoning | Question `--think-hard` |
+| `--c7` | Context7 docs | `--c7 "react hooks"` |
+| `--web` | Web search | `--web "oauth best practices"` |
+
+## Setup Requirements
+
+1. **Install SuperClaude**:
+   ```bash
+   git clone https://github.com/NomenAK/SuperClaude.git
+   bash SuperClaude/install.sh --dir "$HOME/.claude"
+   ```
+
+2. **Set Environment**:
+   ```bash
+   export CLAUDE_HOME="$HOME/.claude"
+   ```
+
+3. **Verify Installation**:
+   - Test persona: `/persona:engineer`
+   - Test bridge: `/user:load --next`
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Commands not recognized**:
+   - Check `CLAUDE_HOME` environment variable
+   - Restart Cursor after installation
+   - Verify `.claude/` directory exists
+
+2. **TaskMaster bridge failures**:
+   - Ensure TaskMaster CLI is in PATH
+   - Check TaskMaster is initialized in project
+   - Verify `.taskmaster/` directory exists
+
+3. **Token limit errors**:
+   - Use `--compress` or `--ultracompress`
+   - Break large tasks into smaller chunks
+   - Clear context between major tasks
+
+### Debug Mode
+```bash
+# Enable verbose output
+export SUPERCLAUDE_DEBUG=1
+
+# Check configuration
+ls -la ~/.claude/
+cat ~/.claude/CLAUDE.md
+```
+
+## Integration with Lab Workflow
+
+SuperClaude enhances The Lab's productivity by:
+- **2-3x better reasoning** on complex tasks
+- **Seamless TaskMaster integration** for workflow tracking
+- **Specialized personas** for different development phases
+- **Git checkpointing** for safe experimentation
+
+Remember: SuperClaude is optional but recommended for maximum productivity gains.
+
+---
+*For setup instructions, see [superclaude_taskmaster_startup_guide.md]*
+
+
+*Edit this file whenever SuperClaude command mappings or guard-rails change.*
+

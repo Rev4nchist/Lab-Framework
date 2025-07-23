@@ -1,0 +1,150 @@
+# Docker Integration Rule for The Lab
+
+## Azure-Compatible Containerization
+
+### Standard Dockerfile Templates
+
+#### Node.js/TypeScript Projects
+```dockerfile
+# Use Azure-compatible base image
+FROM mcr.microsoft.com/appsvc/node:18-lts
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy source code
+COPY src/ ./src/
+COPY tsconfig.json ./
+
+# Build TypeScript (if applicable)
+RUN npm run build
+
+# Expose port (Azure App Service uses 8000 by default)
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Start application
+CMD ["npm", "start"]
+```
+
+#### Python Projects
+```dockerfile
+FROM mcr.microsoft.com/appsvc/python:3.11
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+EXPOSE 8000
+
+CMD ["python", "app.py"]
+```
+
+### Development Workflow
+
+#### Local Development
+```bash
+# Build image
+docker build -t [project-slug] .
+
+# Run locally
+docker run -p 8000:8000 [project-slug]
+
+# Development with volume mounting
+docker run -p 8000:8000 -v $(pwd)/src:/app/src [project-slug]
+```
+
+#### Azure Deployment Pipeline
+```bash
+# Tag for Azure Container Registry
+docker tag [project-slug] [registry].azurecr.io/[project-slug]:latest
+
+# Push to ACR
+az acr login --name [registry]
+docker push [registry].azurecr.io/[project-slug]:latest
+
+# Deploy to Azure Container Apps
+az containerapp create \
+  --name [project-slug] \
+  --resource-group [rg-name] \
+  --environment [env-name] \
+  --image [registry].azurecr.io/[project-slug]:latest
+```
+
+## Best Practices
+
+### ✅ DO: Production-Ready Containers
+```dockerfile
+# Multi-stage builds for smaller images
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+FROM mcr.microsoft.com/appsvc/node:18-lts
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
+EXPOSE 8000
+CMD ["npm", "start"]
+```
+
+### ❌ DON'T: Insecure or Bloated Images
+```dockerfile
+# Bad - using :latest, running as root, no health checks
+FROM node:latest
+COPY . .
+RUN npm install
+CMD ["node", "app.js"]
+```
+
+## Integration with Lab Workflow
+
+1. **Auto-Generate**: New projects get template Dockerfile
+2. **Test Early**: `docker build` before committing
+3. **Azure-Ready**: Use Microsoft base images for compatibility
+4. **Security**: Non-root users, minimal attack surface
+5. **Monitoring**: Include health checks and logging
+
+## Troubleshooting
+
+### Common Issues
+- **Port binding**: Azure expects port 8000 for most services
+- **File permissions**: Use USER directive for security
+- **Build context**: Keep .dockerignore updated
+- **Health checks**: Required for Azure Container Apps
+
+### Docker Commands Reference
+```bash
+# Build with cache
+docker build --cache-from [image] -t [tag] .
+
+# Debug container
+docker run -it [image] /bin/sh
+
+# View logs
+docker logs [container-id]
+
+# Check resource usage
+docker stats [container-id]
+```
+
+---
+description: Containerizes projects for Azure deployment with best practices
+globs: projects/**/Dockerfile, projects/**/docker-compose.yml
+alwaysApply: false
+---
+description:
+globs:
+alwaysApply: false
+---

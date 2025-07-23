@@ -1,0 +1,80 @@
+---
+alwaysApply: false
+---
+- **Required Rule Structure:**
+  ```markdown
+  ---
+  description: Clear, one-line description of what the rule enforces
+  globs: path/to/files/*.ext, other/path/**/*
+  alwaysApply: boolean
+  ---
+
+  - **Main Points in Bold**
+    - Sub-points with details
+    - Examples and explanations
+  ```
+
+- **File References:**
+  - Use `[filename](mdc:path/to/file)` ([filename](mdc:filename)) to reference files
+  - Example: [prisma.mdc](mdc:.cursor/rules/prisma.mdc) for rule references
+  - Example: [schema.prisma](mdc:prisma/schema.prisma) for code references
+
+- **Code Examples:**
+  - Use language-specific code blocks
+  ```typescript
+  // ✅ DO: Show good examples
+  const goodExample = true;
+  
+  // ❌ DON'T: Show anti-patterns
+  const badExample = false;
+  ```
+
+- **Rule Content Guidelines:**
+  - Start with high-level overview
+  - Include specific, actionable requirements
+  - Show examples of correct implementation
+  - Reference existing code when possible
+  - Keep rules DRY by referencing other rules
+
+- **Rule Maintenance:**
+  - Update rules when new patterns emerge
+  - Add examples from actual codebase
+  - Remove outdated patterns
+  - Cross-reference related rules
+
+- **Best Practices:**
+  - Use bullet points for clarity
+  - Keep descriptions concise
+  - Include both DO and DON'T examples
+  - Reference actual code over theoretical examples
+  - Use consistent formatting across rules
+
+- **MCP Tool Integration:**
+  - Refer to [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for comprehensive tool usage
+  - Use performance-driven tool selection based on tested metrics
+  - Prioritize Desktop Commander for file operations (30x faster)
+  - Use BrowserBase with Smithery CLI for 95% success rate
+  - Avoid MCP search functions due to timeout issues
+
+- **Browser Testing Integration (MANDATORY):**
+  - All user-facing features MUST include browser testing validation
+  - Test on real production sites (Airbnb patterns) for authentic complexity
+  - Use BrowserBase for complex workflows (95% success rate)
+  - Use Stagehand for simple extraction (75% success rate)
+  - **Workflow Chain**: Plan → Implement → Browser Test → Review → Deploy
+  - **Success Patterns:**
+    ```typescript
+    // ✅ DO: Test complete user flows
+    const session = await browserbase_session_create()
+    await browserbase_stagehand_navigate("https://app.com")
+    await browserbase_stagehand_act("Complete checkout flow")
+    const results = await browserbase_stagehand_extract("Order confirmation details")
+    
+    // ❌ DON'T: Skip browser validation for UI changes
+    // ❌ DON'T: Test only on localhost
+    ```
+  - **Performance Metrics Achieved:**
+    - Browser automation: 50% → 95% success rate
+    - Debug time: 20min → 5min with live URLs
+    - Visual validation: Screenshots at each step
+  - See [BROWSER_DEBUG_WORKFLOW.md](mdc:docs-hub/guides/BROWSER_DEBUG_WORKFLOW.md) for complete patterns 

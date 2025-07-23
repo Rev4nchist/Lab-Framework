@@ -1,0 +1,239 @@
+# TaskMaster Development Workflow
+
+## TaskMaster Lifecycle
+
+### 1. **Bootstrap Phase**
+```bash
+# Initialize project
+tm init --name="my-project" -y
+
+# Parse PRD to generate tasks
+tm parse-prd docs/prd.txt --num-tasks=15 --force
+
+# Analyze project complexity
+tm analyze-complexity --research
+```
+
+### 2. **Daily Workflow**
+```bash
+# Start your day
+tm list --status=pending --with-subtasks  # See what's available
+tm next                                    # Get AI recommendation
+
+# Understand the task
+tm show 5                                  # View task details
+tm show 5.2                                # View specific subtask
+
+# Work on tasks
+tm set-status --id=5.2 --status=in-progress
+tm update-subtask --id=5.2 --prompt="Implemented authentication logic"
+```
+
+### 3. **Task Breakdown**
+```bash
+# Expand complex tasks
+tm expand --id=5 --num=5 --research       # Break into 5 subtasks
+
+# Clear and re-expand if needed
+tm clear-subtasks --id=5
+tm expand --id=5 --num=3 --research
+```
+
+### 4. **Progress Tracking**
+```bash
+# Update task progress
+tm update-subtask --id=5.2 --prompt="Fixed JWT token expiration issue"
+tm set-status --id=5.2 --status=done
+
+# Add new discoveries
+tm add-task --prompt="Refactor auth middleware for better error handling" --priority=high
+```
+
+### 5. **Dependency Management**
+```bash
+# Set dependencies
+tm add-dependency --id=10 --depends-on=5
+
+# Validate dependency graph
+tm validate-dependencies
+tm fix-dependencies                        # Auto-fix circular dependencies
+```
+
+### 6. **House-keeping**
+```bash
+# Weekly maintenance
+tm validate-dependencies                   # Check for issues
+tm generate                               # Refresh markdown files
+tm analyze-complexity                     # Project health check
+```
+
+## Command Cheatsheet
+
+| Goal | MCP Tool | CLI Command | Desktop Commander |
+|------|----------|-------------|-------------------|
+| Next task | `next_task` | `tm next` | "What should I work on?" |
+| Show task | `get_task --id=3.2` | `tm show 3.2` | "Show me task 3.2" |
+| Mark done | `set_task_status --id=3.2 --status=done` | `tm set-status --id=3.2 --status=done` | "Mark 3.2 as done" |
+| Expand task | `expand_task --id=5 --num=3` | `tm expand --id=5 --num=3` | "Break down task 5" |
+| Update progress | `update_subtask --id=5.2 --prompt="..."` | `tm update-subtask --id=5.2 --prompt="..."` | "Update 5.2: Fixed auth" |
+
+## Tag-Based Development
+
+### Managing Multiple Contexts
+
+```bash
+# List all tags
+tm list-tags
+
+# Create new tag for feature
+tm add-tag feature-auth --description="Authentication system"
+
+# Switch context
+tm use-tag feature-auth
+
+# Work within tag
+tm parse-prd docs/auth-prd.txt --force
+tm list --tag=feature-auth
+
+# Return to master
+tm use-tag master
+```
+
+### Tag Strategy Patterns
+
+1. **Master Tag**: Infrastructure and high-level tasks
+2. **Feature Tags**: `feature-[name]` for major features
+3. **Team Tags**: `team-[name]` for collaborative work
+4. **Experiment Tags**: `exp-[name]` for prototypes
+
+## AI-Powered Features
+
+### Research Mode
+```bash
+# Research before implementation
+tm research --query="best practices for JWT implementation"
+tm expand --id=5 --research              # Research-informed breakdown
+tm analyze-complexity --research         # Deep complexity analysis
+```
+
+### Smart Task Creation
+```bash
+# AI generates complete task structure
+tm add-task --prompt="Implement user authentication with JWT" \
+           --priority=high \
+           --break-down            # Auto-expand into subtasks
+```
+
+### Intelligent Updates
+```bash
+# AI helps structure your progress updates
+tm update-subtask --id=5.2 \
+    --prompt="Researched OAuth vs JWT. Decided on JWT for stateless auth. Next: implement refresh tokens"
+```
+
+## MCP Integration Benefits
+
+### Direct Tool Usage (Recommended)
+- Structured responses
+- Better error handling  
+- Automatic validation
+- Seamless Cursor integration
+
+### CLI via Desktop Commander
+- Natural language commands
+- Visual feedback
+- Command history
+- Easy for beginners
+
+### MCP Tool Integration
+- See [development_toolkit_guide.mdc](mdc:.cursor/rules/development_toolkit_guide.mdc) for comprehensive patterns
+- Use parallel tool calls for 3-5x performance gains
+- Leverage BrowserBase for complex workflows (95% success rate)
+- Desktop Commander for file operations (30x faster than MCP search)
+
+## Advanced Workflows
+
+### Multi-Branch Development
+```bash
+# Create branch tag
+tm add-tag --from-branch feature/oauth
+tm use-tag feature-oauth
+
+# Sync with git
+git checkout feature/oauth
+tm parse-prd docs/oauth-prd.txt
+```
+
+### Bulk Operations
+```bash
+# Expand all pending tasks
+tm expand --all --status=pending --research
+
+# Mark multiple subtasks done
+tm set-status --id=5.1,5.2,5.3 --status=done
+```
+
+### Project Analysis
+```bash
+# Full project report
+tm analyze-complexity --research > analysis.md
+
+# Dependency visualization
+tm validate-dependencies --visualize
+```
+
+## Best Practices
+
+### Task Granularity
+- Top-level tasks: Major features/components
+- Subtasks: 2-4 hour work chunks
+- Use `expand` when tasks feel too large
+- Use `update-subtask` for progress notes
+
+### Documentation Flow
+1. Start with PRD in `docs/`
+2. Parse into TaskMaster
+3. Update subtasks with findings
+4. Generate markdown for reviews
+
+### Team Collaboration
+- Use tags for parallel work
+- Share `.taskmaster/` via git
+- Regular `tm sync` for updates
+- Clear task assignments
+
+### AI Model Configuration
+```bash
+# Setup models
+tm models --setup                    # Interactive setup
+
+# Set specific models
+tm models --set-main=claude-3-opus
+tm models --set-research=perplexity-sonar
+tm models --set-fallback=gpt-4
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Tasks not updating**: Check current tag with `tm current-tag`
+2. **Dependency conflicts**: Run `tm fix-dependencies`
+3. **API errors**: Verify keys with `tm models --validate`
+4. **Parse failures**: Check PRD format matches template
+
+### Recovery Commands
+```bash
+# Backup current state
+cp .taskmaster/tasks/tasks.json .taskmaster/tasks/backup.json
+
+# Validate task structure
+tm validate
+
+# Reset to last checkpoint
+tm restore --from=.taskmaster/tasks/backup.json
+```
+
+---
+*For complete command reference, see [taskmaster.mdc]. For Lab-specific patterns, see [lab_workflow.mdc].*
+
